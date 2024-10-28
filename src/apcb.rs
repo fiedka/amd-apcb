@@ -1254,14 +1254,14 @@ impl<'a> Apcb<'a> {
                     "V3_HEADER_EXT::data_version",
                 ));
             }
-            if value.ext_header_size.get() == 96 {
+            if value.ext_header_size.get() == 0x60 {
             } else {
                 return Err(Error::FileSystem(
                     FileSystemError::InconsistentHeader,
                     "V3_HEADER_EXT::ext_header_size",
                 ));
             }
-            if u32::from(value.data_offset.get()) == 88 {
+            if u32::from(value.data_offset.get()) == 0x58 {
             } else {
                 return Err(Error::FileSystem(
                     FileSystemError::InconsistentHeader,
