@@ -691,6 +691,9 @@ pub enum MemoryEntryId {
     PmuBistVendorAlgorithm,
     Ddr5RawCardConfig,
 
+    SmthXX0,
+    SmthXX1,
+
     Unknown(u16),
 }
 
@@ -704,6 +707,7 @@ impl ToPrimitive for MemoryEntryId {
             Self::DimmInfoSmbus => 0x31,
             Self::DimmConfigInfoId => 0x32,
             Self::MemOverclockConfig => 0x33,
+            Self::SmthXX0 => 0x34,
             Self::DdrDqPinMap => 0x35,
             Self::Ddr5CaPinMap => 0x36,
             Self::MemDfeSearch => 0x37,
@@ -752,6 +756,7 @@ impl ToPrimitive for MemoryEntryId {
             Self::PsSodimmDdr4StretchFreq => 0x5D,
 
             Self::DdrPostPackageRepair => 0x5E,
+            Self::SmthXX1 => 0x5f,
 
             Self::PsDramdownDdr4OdtPat => 0x70,
             Self::PsDramdownDdr4CadBus => 0x71,
@@ -782,6 +787,7 @@ impl FromPrimitive for MemoryEntryId {
                 0x31 => Self::DimmInfoSmbus,
                 0x32 => Self::DimmConfigInfoId,
                 0x33 => Self::MemOverclockConfig,
+                0x34 => Self::SmthXX0,
                 0x35 => Self::DdrDqPinMap,
                 0x36 => Self::Ddr5CaPinMap,
                 0x37 => Self::MemDfeSearch,
@@ -822,6 +828,7 @@ impl FromPrimitive for MemoryEntryId {
                 0x5D => Self::PsSodimmDdr4StretchFreq,
 
                 0x5E => Self::DdrPostPackageRepair,
+                0x5F => Self::SmthXX1,
 
                 0x70 => Self::PsDramdownDdr4OdtPat,
                 0x71 => Self::PsDramdownDdr4CadBus,
@@ -863,6 +870,8 @@ pub enum GnbEntryId {
     DefaultParameters, // Naples
     Parameters,        // Naples
     EarlyPcieConfig,   // Turin
+    XX0,
+    XX1,
     Unknown(u16),
 }
 
@@ -871,6 +880,8 @@ impl ToPrimitive for GnbEntryId {
         Some(match self {
             Self::DefaultParameters => 0x09,
             Self::Parameters => 0x0A,
+            Self::XX0 => 0x1001,
+            Self::XX1 => 0x1002,
             Self::EarlyPcieConfig => 0x1003,
             Self::Unknown(x) => (*x) as i64,
         })
@@ -886,6 +897,8 @@ impl FromPrimitive for GnbEntryId {
             Some(match value {
                 0x09 => Self::DefaultParameters,
                 0x0A => Self::Parameters,
+                0x1001 => Self::XX0,
+                0x1002 => Self::XX1,
                 0x1003 => Self::EarlyPcieConfig,
                 x => Self::Unknown(x as u16),
             })
