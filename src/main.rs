@@ -1,6 +1,7 @@
-use amd_apcb::{Apcb, ApcbIoOptions};
+use amd_apcb::{Apcb, ApcbIoOptions, EntryId};
 use clap::Parser;
-use std::fs;
+use std::fs::{self, File};
+use std::io::prelude::*;
 
 /// Parse a PSP binary's header
 #[derive(Parser, Debug)]
@@ -36,7 +37,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("{:?}", g.id());
         for e in g.entries() {
             let id = format!("{:?}", e.id());
-            let sz = e.body_as_buf().unwrap_or(&[]).len();
+            let body = e.body_as_buf().unwrap_or(&[]);
+            if e.id() == EntryId::Memory(amd_apcb::MemoryEntryId::SpdInfo) {
+                let file_name = "spd.bin";
+                let mut file = File::create(file_name)?;
+                file.write_all(body)?;
+                //
+            }
+            let sz = body.len();
             println!(" - {id:36} size: {sz}");
         }
     }
